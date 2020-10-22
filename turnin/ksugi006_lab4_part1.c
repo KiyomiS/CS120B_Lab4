@@ -55,7 +55,7 @@ void Tick(){
 		case ONR:
 			break;
 		case OFFP:
-			PORB = 0x01;
+			PORTB = 0x01;
 		default:
 			break;
 	}
