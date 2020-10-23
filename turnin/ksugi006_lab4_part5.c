@@ -24,7 +24,7 @@ void Tick() {
 			if (PINA == 0x80) {
 				state = Start;
 			}
-			if( cnt == 7) {
+			if(cnt == 7) {
 				state = next;
 			}
 			break;
@@ -52,14 +52,11 @@ void Tick() {
 			}
 			break;
 		case next:
-			if(PINA == 0x80) {
-				PORTB = 0x00;
+			if (PORTB == 0x001) {
+				PORTB = 0x00; //switching states from lock to unlock now
 			}
-			else if (PORTB == 0x00) {
-				PORTB = 0x01; //switching states from lock to unlock now
-			}
-			else if (PORTB == 0x01) {
-				PORTB = 0x00; //switching from unlock to lock --> probably should rename the lock state to change lock..
+			else{
+				PORTB = 0x01; //switching from unlock to lock
 			}
 			break;
 		default:
@@ -70,6 +67,7 @@ void Tick() {
 
 int main(void) {
     /* Insert DDR and PORT initializations */
+	cnt = 0;
 	state = Start;
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;	
