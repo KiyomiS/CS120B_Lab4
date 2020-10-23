@@ -34,6 +34,9 @@ void Tick() {
 			if ((PINA & 0x02) == 0x02) {
 				state = unlock;
 			}
+			else if ((PINA & 0x07) == 0x00){
+				state = hash;
+			}
 			else {
 				state = hash;
 			}
