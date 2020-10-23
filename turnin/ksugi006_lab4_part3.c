@@ -20,10 +20,10 @@ void Tick() {
 			state = button;
 			break;
 		case button:
-			if((PINA & 0x04) == 0x04) {
+			if(PINA == 0x04) {
 				state = hash;
 			} 
-			else if ((PINA & 0x80) == 0x80) {
+			else if (PINA == 0x80) {
 				state = lock;
 			}
 			else {
@@ -31,11 +31,8 @@ void Tick() {
 			}
 			break;
 		case hash:
-			if ((PINA & 0x02) == 0x02) {
+			if (PINA == 0x02) {
 				state = unlock;
-			}
-			else if ((PINA & 0x07) == 0x00){
-				state = hash;
 			}
 			else {
 				state = hash;
