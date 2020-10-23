@@ -13,8 +13,8 @@
 #endif
 
 enum States{Start, loop, next} state;
-unsigned char cnt;
-unsigned char arr[4] = { 0x04, 0x00, 0x01, 0x00}; // # X Y X
+unsigned char cnt = 0;
+unsigned char arr[8] = { 0x04, 0x00, 0x01, 0x00, 0x02, 0x00, 0x01, 0x00}; // # X Y X
 void Tick() {
 	switch(state) {
 		case Start:
@@ -24,7 +24,7 @@ void Tick() {
 			if (PINA == 0x80) {
 				state = Start;
 			}
-			if( cnt == 4) {
+			if( cnt == 7) {
 				state = next;
 			}
 			break;
