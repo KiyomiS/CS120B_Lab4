@@ -67,7 +67,7 @@ void Tick() {
 			}
 			break;
 		case lock:
-			if(PINA == 0x00) {
+			if(PINA == 0x80) {
 				PORTB = 0x00;
 			}
 			else if (PORTB == 0x00) {
