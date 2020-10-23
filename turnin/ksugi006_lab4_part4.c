@@ -12,7 +12,7 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States{Start, button, hash, lock, unlock} state;
+enum States{Start, button, check, unpress, press} state;
 
 void Tick() {
 	switch(state) {
@@ -20,39 +20,35 @@ void Tick() {
 			state = button;
 			break;
 		case button:
-			if ((PINA & 0x07)== 0x04) {
-				state = hash;
+			if (PINA == 0x04) {
+				state = check;
 			} else {
 				state = button;
 			}
 			break;
-		case hash:
-			if ((PINA & 0x07) == 0x04) {
-				state = hash;
-			} else if ((PINA & 0x07) == 0x00) {
-				state = unlock;
+		case check:
+			if (PINA == 0x04) {
+				state = check;
+			} else if (PINA == 0x00) {
+				state = unpress;
 			} else {
 				state = button;
 			}
 			break;
-		case unlock:
-			if ((PINA & 0x07) == 0x00)  {
-				state = unlock;
-			} else if ((PINA & 0x07) == 0x02) {
-				state = lock;
+		case unpress:
+			if (PINA == 0x00)  {
+				state = unpress;
+			} else if (PINA == 0x02) {
+				state = press;
 			} else {
 				state = button;
 			}
 			break;
-		case lock:
-			if ((PINA & 0x80) == 0x80) {
-				state = button;
-			} else {
-				state = lock;
-			}
+		case press:
+			state = button;
 			break;
 		default:
-			state = button;
+			state = Start;
 			break;
 
 	}
@@ -60,13 +56,13 @@ void Tick() {
 		case Start:
 			break;
 		case button:
-		case hash:
-		case unlock:
+		case check:
+		case unpress:
 			if(PINA == 0x80) {
 				PORTB = 0x00;
 			}
 			break;
-		case lock:
+		case press:
 			if(PINA == 0x80) {
 				PORTB = 0x00;
 			}

@@ -28,7 +28,7 @@ tests = [   {'description': 'set pina to 0x04, expected result = 0x00',
    },
 	{'description': 'checking 0x04, expected result = 0x00',
 	'steps' : [ {'inputs': [('PINA', 0x04)], 'iterations': 1 }],
-	'expected': [('PORTB' , 0x00)],
+	'expected': [('PORTB' , 0x01)],
 	},
     ]
 
