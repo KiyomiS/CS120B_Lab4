@@ -15,49 +15,60 @@
 enum States{Start, button, hash, lock, unlock} state;
 
 void Tick() {
-	switch(state){
+	switch(state) {
 		case Start:
 			state = button;
 			break;
 		case button:
-			if(PINA == 0x04) {
+			if ((PINA & 0x07)== 0x04) {
 				state = hash;
-			} 
-			else if (PINA == 0x80) {
-				state = lock;
-			}
-			else {
+			} else {
 				state = button;
 			}
 			break;
 		case hash:
-			if (PINA == 0x02) {
-				state = unlock;
-			}
-			else {
+			if ((PINA & 0x07) == 0x04) {
 				state = hash;
+			} else if ((PINA & 0x07) == 0x00) {
+				state = unlock;
+			} else {
+				state = button;
 			}
 			break;
 		case unlock:
-			state = button;
+			if ((PINA & 0x07) == 0x00)  {
+				state = unlock;
+			} else if ((PINA & 0x07) == 0x02) {
+				state = lock;
+			} else {
+				state = button;
+			}
 			break;
 		case lock:
-			state = button;
+			if ((PINA & 0x80) == 0x80) {
+				state = button;
+			} else {
+				state = lock;
+			}
 			break;
 		default:
-			state = Start;
+			state = button;
 			break;
+
 	}
-	switch(state){
+	switch(state) {
 		case Start:
 			break;
+		case button:
 		case hash:
-			break;
 		case unlock:
-			PORTB = 0x01;
-		case lock:
 			PORTB = 0x00;
+			break;
+		case lock:
+			PORTB = 0x01;
+			break;
 		default:
+			PORTB = 0x00;
 			break;
 	}
 }
